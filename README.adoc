@@ -5,11 +5,47 @@
 
 Quite often when we are developing an application we need some external services such as a rabbitMQ, Kafka, ...
 When developing locally you are quite likely using a docker compose file to start these up, and I am certainly (hopefully) not the only one that has forgotten at least once to start these instances up.
+And quite often you're maybe even already using Testcontainers for your testing.
 
 Luckily Spring Boot 3.1 introduced 2 nice new functionalities to make our live a bit easier.
 
 . https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.docker-compose[Docker compose support] which allows us to make use of our compose.yaml file to start these up, and create the service connections for supported containers
 . improved integration for testcontainers at development time which I'd like to talk a bit more about here.
+
+Both of these functionalities are built atop the https://spring.io/blog/2023/06/19/spring-boot-31-connectiondetails-abstraction[ConnectionDetails abstraction], so if you are unfamiliar with this. I recommend checking out this article.
+
+== The setup
+
+The application itself is a very simple one that allows us to http://localhost:8080/rollDie[get a die result] which is then stored in our `Redis` instance, and to http://localhost:8080/listRolls[retrieve all these rolls]
+
+Now rather than having to install a Redis instance locally, or using a `docker.yaml` file we're making using of the new Testcontainers functionality.
+
+As you can see in `DemoConfiguration` we are making use of the new `ServiceConnection` to define our Redis instance making use of a Testcontainer.
+[code,java]
+----
+@Bean
+@ServiceConnection(name = "redis")
+GenericContainer<?> redisContainer() {
+    return new GenericContainer<>(DockerImageName.parse("redis:latest")).withExposedPorts(6379);
+}
+----
+
+Now in `TestTestcontainersDemoApplication` you'll see that we are making use of the new `SpringApplication.from` method to delegate to our actual application, and we are passing in our Test configuration.
+
+[code,java]
+----
+public static void main(String[] args) {
+    SpringApplication.from(TestcontainersDemoApplication::main)
+            .with(DemoConfiguration.class)
+            .run(args);
+}
+----
+
+This way we can run our application for development purposes using this main method. +
+Alternatively we can make use of: `./gradlew bootTestRun` or `./mvnw spring-boot:test-run`.
+
+After this we can see that our application has started up *_including_* our Testcontainers.
+
 
 == References
 * https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing.testcontainers.service-connections[Provided service connections]
