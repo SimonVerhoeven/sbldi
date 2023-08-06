@@ -16,7 +16,7 @@ public class DieRollService {
     }
 
     DieRoll roll() {
-        DieRoll dieRoll = new DieRoll(UUID.randomUUID(), new Random().nextInt(6), LocalDateTime.now());
+        DieRoll dieRoll = new DieRoll(UUID.randomUUID(), new Random().nextInt(6) + 1, LocalDateTime.now());
         return dieRollRepository.save(dieRoll);
     }
 

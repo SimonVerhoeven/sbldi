@@ -46,6 +46,63 @@ Alternatively we can make use of: `./gradlew bootTestRun` or `./mvnw spring-boot
 
 After this we can see that our application has started up *_including_* our Testcontainers.
 
+== What about my data?
+
+You will notice that when your application stops, that the containers are also stopped.
+This does mean that you'll also lose your data.
+
+There are two options to work around this in case you want to keep your data.
+
+=== Reusable testcontainers (experimental)
+The first option, https://java.testcontainers.org/features/reuse/[Reusable Testcontainers] is an experimental feature that can be used by adding `.withReuse(true)`. +
+These containers are not stopped when your application stops!
+
+[code,java]
+----
+@Bean
+@ServiceConnection(name = "redis")
+GenericContainer<?> redisContainer() {
+    return new GenericContainer<>(DockerImageName.parse("redis:latest"))
+            .withExposedPorts(6379)
+            .withReuse(true);
+}
+----
+
+=== Spring Boot devtools with @RestartScope
+
+The second option requires you to annotate the desired containers with `@RestartScope`, and to have devtools set up. +
+After which they're no longer restarted when devtools restarts your application.
+
+For devtools we'll need to add this to our pom.xml file:
+[code,xml]
+----
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-testcontainers</artifactId>
+  <scope>optional</scope>
+</dependency>
+----
+
+or our Gradle build file:
+[code,groovy]
+----
+dependencies {
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+}
+----
+
+and then we just need to annotate our container(s)
+
+[code,java]
+----
+@Bean
+@ServiceConnection(name = "redis")
+@RestartScope
+GenericContainer<?> redisContainer() {
+    return new GenericContainer<>(DockerImageName.parse("redis:latest"))
+            .withExposedPorts(6379);
+}
+----
 
 == References
 * https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing.testcontainers.service-connections[Provided service connections]

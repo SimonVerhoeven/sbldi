@@ -1,5 +1,6 @@
 package dev.simonverhoeven.testcontainersdemo;
 
+import org.springframework.boot.devtools.restart.RestartScope;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +14,8 @@ public class DemoConfiguration {
     @Bean
     @ServiceConnection(name = "redis")
     GenericContainer<?> redisContainer() {
-        return new GenericContainer<>(DockerImageName.parse("redis:latest")).withExposedPorts(6379);
+        return new GenericContainer<>(DockerImageName.parse("redis:latest"))
+                .withExposedPorts(6379);
     }
 
 }
