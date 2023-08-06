@@ -46,7 +46,30 @@ Alternatively we can make use of: `./gradlew bootTestRun` or `./mvnw spring-boot
 
 After this we can see that our application has started up *_including_* our Testcontainers.
 
-== What about my data?
+=== What if my desired container does not have a ServiceConnection yet?
+
+Using `@ServiceConnection` is recommend, but not all technologies support this method yet. +
+
+If this is the case, then you can inject your `@Bean` definition of the container with `DynamicPropetyRegistry` to contribute the dynamic properties at development time.
+This works akin to the `@DnamicPropertySource` annotation from tests and allows us to add properties that become available once the container has started.
+
+For example, let's say we want to send out e-mails from our application and we want to use make use of `MailHog` which does not have a service connection factory provided yet in `spring-boot-testcontainers` we can do:
+
+[code,java]
+----
+@Bean
+public GenericContainer mailhogContainer(DynamicPropertyRegistry registry) {
+   GenericContainer container = new GenericContainer("mailhog/mailhog")
+                                        .withExposedPorts(1025);
+   registry.add("spring.mail.host", container::getHost);
+   registry.add("spring.mail.port", container::getFirstMappedPort);
+   return container;
+}
+----
+
+To provide the required information at development time.
+
+== Keeping our data
 
 You will notice that when your application stops, that the containers are also stopped.
 This does mean that you'll also lose your data.
@@ -105,4 +128,5 @@ GenericContainer<?> redisContainer() {
 ----
 
 == References
+* https://testcontainers.com/[Testcontainers]: the official Testcontainers website
 * https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing.testcontainers.service-connections[Provided service connections]
