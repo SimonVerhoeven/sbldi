@@ -1,4 +1,4 @@
-package dev.simonverhoeven.testcontainersdemo;
+package dev.simonverhoeven.sbldi;
 
 import org.springframework.data.redis.core.RedisHash;
 

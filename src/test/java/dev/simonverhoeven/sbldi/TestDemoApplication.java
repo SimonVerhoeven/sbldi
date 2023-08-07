@@ -1,13 +1,13 @@
-package dev.simonverhoeven.testcontainersdemo;
+package dev.simonverhoeven.sbldi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.TestConfiguration;
 
 @TestConfiguration(proxyBeanMethods = false)
-public class TestTestcontainersDemoApplication {
+public class TestDemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.from(TestcontainersDemoApplication::main)
+		SpringApplication.from(DemoApplication::main)
 				.with(DemoConfiguration.class)
 				.run(args);
 	}

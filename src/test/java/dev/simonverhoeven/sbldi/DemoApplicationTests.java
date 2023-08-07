@@ -1,10 +1,10 @@
-package dev.simonverhoeven.testcontainersdemo;
+package dev.simonverhoeven.sbldi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TestcontainersDemoApplicationTests {
+class DemoApplicationTests {
 
 	@Test
 	void contextLoads() {

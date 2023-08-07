@@ -1,4 +1,4 @@
-package dev.simonverhoeven.testcontainersdemo;
+package dev.simonverhoeven.sbldi;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

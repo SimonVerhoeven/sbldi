@@ -1,4 +1,4 @@
-package dev.simonverhoeven.testcontainersdemo;
+package dev.simonverhoeven.sbldi;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
