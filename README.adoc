@@ -3,16 +3,18 @@
 :toc-placement:
 :toclevels: 3
 
-Quite often when we are developing an application we will need some external services such as a rabbitMQ, Kafka, ...
-When you are developing locally, you are quite likely using a docker compose file to start these up, and I am certainly (hopefully) not the only one that has forgotten at least once to start these instances up.
+Quite often when we are developing an application we will need some external services such as rabbitMQ, Kafka, ...
+When you are developing locally, you are quite likely using a docker-compose file to start these up, and I am certainly (hopefully) not the only one that has forgotten at least once to start these instances up.
 And maybe you are even already using Testcontainers for your testing.
 
-Luckily Spring Boot 3.1 introduced some nice improvements to make our live a bit easier.
+Luckily Spring Boot 3.1 introduced some nice improvements to make our lives a bit easier.
 
-. https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.docker-compose[Docker compose support] which allows us to make use of our compose.yaml file to start these up, and create the service connections for supported containers
+. https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.docker-compose[Docker compose support] which allows us to make use of our `compose.yml` file to start these up, and create the service connections for supported containers
 . https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing.testcontainers.at-development-time[Testcontainers at development time]
 
 Both of these functionalities are built atop the https://spring.io/blog/2023/06/19/spring-boot-31-connectiondetails-abstraction[ConnectionDetails abstraction], so if you are unfamiliar with this. I recommend checking out this article.
+
+*Note:* the `docker compose` CLI application needs to be on your path for these to work properly.
 
 == Docker compose support
 
@@ -56,13 +58,13 @@ And when the application stops, the defined containers/services are shut down us
 There are a slew of configuration options, but some useful ones to know:
 
 * specifying a specific compose file: `spring.docker.compose.file`
-* managing the docker compose lifecycle can be done using `spring.docker.compose.lifecycle-management` to configure it as:
+* managing the docker-compose lifecycle can be done using `spring.docker.compose.lifecycle-management` to configure it as:
 
 ** none: do not start nor stop
 ** start-only
 ** start-and-stop
 
-* making use of spring profile specific docker compose files (`docker–compose-{profile}.yaml`) can be done using: `spring.docker.compose.profiles.active`
+* making use of spring profile-specific docker compose files (`docker–compose-{profile}.yaml`) can be done using: `spring.docker.compose.profiles.active`
 
 == Testcontainers at development time
 
@@ -70,7 +72,7 @@ There are a slew of configuration options, but some useful ones to know:
 
 The application itself is a very simple one that allows us to http://localhost:8080/rollDie[get a die result] which is then stored in our `Redis` instance, and to http://localhost:8080/listRolls[retrieve all these rolls]
 
-Now rather than having to install a Redis instance locally, or using a `docker.yaml` file we're making using of the new Testcontainers functionality.
+Now rather than having to install a Redis instance locally, or using a `docker.yaml` file we're making use of the new Testcontainers functionality.
 
 As you can see in `DemoConfiguration` we are making use of the new `ServiceConnection` to define our Redis instance making use of a Testcontainer.
 [code,java]
@@ -96,11 +98,11 @@ public static void main(String[] args) {
 This way we can run our application for development purposes. +
 Alternatively we can make use of: `./gradlew bootTestRun` or `./mvnw spring-boot:test-run`.
 
-After this we can see that our application has started up *_including_* our Testcontainers.
+After this, we can see that our application has started up *_including_* our Testcontainers.
 
 ==== What if my desired container does not have a ServiceConnection yet?
 
-Using `@ServiceConnection` is recommend, but not all technologies support this method yet. +
+Using `@ServiceConnection` is recommended, but not all technologies support this method yet. +
 
 If this is the case, then you can inject your `@Bean` definition of the container with `DynamicPropetyRegistry` to contribute the dynamic properties at development time.
 This works akin to the `@DnamicPropertySource` annotation from tests and allows us to add properties that become available once the container has started.
@@ -123,7 +125,7 @@ To provide the required information at development time.
 
 === Keeping our data
 
-You will notice that when your application stops, that the containers are also stopped.
+You will notice that when your application stops, the containers are also stopped.
 This does mean that you'll also lose your data.
 
 There are two options to work around this in case you want to keep your data.
@@ -181,4 +183,5 @@ GenericContainer<?> redisContainer() {
 
 == References
 * https://testcontainers.com/[Testcontainers]: the official Testcontainers website
+* https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools[spring-boot-devtools]
 * https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing.testcontainers.service-connections[Provided service connections]
