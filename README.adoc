@@ -44,6 +44,8 @@ dependencies {
 }
 ----
 
+*note*: the docker-compose support is limited at the moment (such as no Kafka), when we're using `spring-boot-testcontainers` we can use any container with the programmatic API.
+
 === How it works
 
 When we then start our application Spring boot will:
@@ -51,7 +53,6 @@ When we then start our application Spring boot will:
 * look for common filenames (`compose.yml` |  `compose.yaml` | `docker-compose.yml` | `docker-compose.yaml`)
 * start the defined containers/services using `docker compose up`
 * create the service connection beans for supported containers
-
 
 And when the application stops, the defined containers/services are shut down using `docker compose down`
 
@@ -71,6 +72,28 @@ There are a slew of configuration options, but some useful ones to know:
 == Testcontainers at development time
 
 === The setup
+
+We just need to add a dependency on `spring-boot-testcontainers`
+
+Maven:
+[code,xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-testcontainers</artifactId>
+        <optional>true</optional>
+    </dependency>
+</dependencies>
+----
+
+Gradle:
+[code,groovy]
+----
+dependencies {
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+}
+----
 
 The application itself is a very simple one that allows us to http://localhost:8080/rollDie[get a die result] which is then stored in our `Redis` instance, and to http://localhost:8080/listRolls[retrieve all these rolls]
 
