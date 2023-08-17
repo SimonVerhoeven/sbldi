@@ -72,7 +72,7 @@ There are a slew of configuration options, but some useful ones to know:
 
 The application itself is a very simple one that allows us to http://localhost:8080/rollDie[get a die result] which is then stored in our `Redis` instance, and to http://localhost:8080/listRolls[retrieve all these rolls]
 
-Now rather than having to install a Redis instance locally, or using a `docker.yaml` file we're making use of the new Testcontainers functionality.
+Now rather than having to install a Redis instance locally, or using a `docker.yaml` file, we're making use of the new Testcontainers functionality.
 
 As you can see in `DemoConfiguration` we are making use of the new `ServiceConnection` to define our Redis instance making use of a Testcontainer.
 [code,java]
@@ -96,7 +96,7 @@ public static void main(String[] args) {
 ----
 
 This way we can run our application for development purposes. +
-Alternatively we can make use of: `./gradlew bootTestRun` or `./mvnw spring-boot:test-run`.
+Alternatively, we can make use of: `./gradlew bootTestRun` or `./mvnw spring-boot:test-run`.
 
 After this, we can see that our application has started up *_including_* our Testcontainers.
 
