@@ -4,7 +4,8 @@
 :toclevels: 3
 
 Quite often when we are developing an application we will need some external services such as rabbitMQ, Kafka, ...
-When you are developing locally, you are quite likely using a docker-compose file to start these up, and I am certainly (hopefully) not the only one that has forgotten at least once to start these instances up.
+
+When you are developing locally, you are quite likely using a docker-compose file to start these up and I am certainly (hopefully) not the only one that has forgotten at least once to start these instances up.
 And maybe you are even already using Testcontainers for your testing.
 
 Luckily Spring Boot 3.1 introduced some nice improvements to make our lives a bit easier.
@@ -44,7 +45,7 @@ dependencies {
 }
 ----
 
-*note*: the docker-compose support is limited at the moment (such as no Kafka), when we're using `spring-boot-testcontainers` we can use any container with the programmatic API.
+*note*: the docker-compose support is limited at the moment (such as no Kafka) when we're using `spring-boot-testcontainers` we can use any container with the programmatic API.
 
 === How it works
 
@@ -179,9 +180,9 @@ For devtools we'll need to add this to our pom.xml file:
 [code,xml]
 ----
 <dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-testcontainers</artifactId>
-  <scope>optional</scope>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <optional>true</optional>
 </dependency>
 ----
 
@@ -208,7 +209,7 @@ GenericContainer<?> redisContainer() {
 
 == Testcontainers.cloud desktop client
 
-This software is not needed, but it's still a nice extra utility to get even more mileage out of your testcontainer useage.
+This software is not needed, but it's still a nice extra utility to get even more mileage out of your testcontainer usage.
 It was recently (https://twitter.com/bsideup/status/1682091750561554457[donated to the community]) as a free testcontainers desktop application, and can be downloaded from https://testcontainers.com/desktop/ and is available for Windows, Mac & Linux.
 
 There are some quite useful features in there such as:
@@ -221,8 +222,7 @@ There are some quite useful features in there such as:
 
 == Wrap up
 
-I hope this brief showcase was helpful and offered some new insights as to how to easy local development.
-In case of any questions, feel free to reach out. The people https://slack.testcontainers.org/[testcontainers slack] are also very kind, and always willing to help out.
+I hope this brief showcase was helpful and offered some new insights as to how to ease local development. In case of any questions, feel free to reach out. The people https://slack.testcontainers.org/[testcontainers slack] are also very kind, and always willing to help out.
 
 
 
