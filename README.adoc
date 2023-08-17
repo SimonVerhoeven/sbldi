@@ -16,6 +16,8 @@ Both of these functionalities are built atop the https://spring.io/blog/2023/06/
 
 *Note:* the `docker compose` CLI application needs to be on your path for these to work properly.
 
+Feel free to clone the repository, to run the samples!
+
 == Docker compose support
 
 This method allows us to leverage our existing `docker-compose.yml` files, with some extra quality of live functionality.
@@ -181,7 +183,28 @@ GenericContainer<?> redisContainer() {
 }
 ----
 
+== Testcontainers.cloud desktop client
+
+This software is not needed, but it's still a nice extra utility to get even more mileage out of your testcontainer useage.
+It was recently (https://twitter.com/bsideup/status/1682091750561554457[donated to the community]) as a free testcontainers desktop application, and can be downloaded from https://testcontainers.com/desktop/ and is available for Windows, Mac & Linux.
+
+There are some quite useful features in there such as:
+
+* proxying a service to a fixed port to facilitate debugging
+* tracking of used images & test parallelization
+* functionality to switch local runtime for (cloud based) testcontainers
+* tweak Testcontainer behaviour such as freezing containers on shutdown/enable reusable testcontainers
+* ...
+
+== Wrap up
+
+I hope this brief showcase was helpful and offered some new insights as to how to easy local development.
+In case of any questions, feel free to reach out. The people https://slack.testcontainers.org/[testcontainers slack] are also very kind, and always willing to help out.
+
+
+
 == References
 * https://testcontainers.com/[Testcontainers]: the official Testcontainers website
+* https://testcontainers.com/cloud/[Testcontainers in the cloud]
 * https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools[spring-boot-devtools]
 * https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing.testcontainers.service-connections[Provided service connections]
