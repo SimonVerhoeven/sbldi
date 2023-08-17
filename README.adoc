@@ -171,6 +171,8 @@ GenericContainer<?> redisContainer() {
 }
 ----
 
+Given the experimental state there are still some limitations which you will have to keep in mind which are document in the https://newsletter.testcontainers.com/announcements/enable-reusable-containers-with-a-single-click[announcement post].
+
 ==== Spring Boot devtools with @RestartScope
 
 The second option requires you to annotate the desired containers with `@RestartScope`, and to have devtools set up. +
