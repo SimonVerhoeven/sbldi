@@ -209,7 +209,7 @@ GenericContainer<?> redisContainer() {
 }
 ----
 
-== Testcontainers.cloud desktop client
+== Testcontainers desktop app
 
 This software is not needed, but it's still a nice extra utility to get even more mileage out of your testcontainer usage.
 It was recently (https://twitter.com/bsideup/status/1682091750561554457[donated to the community]) as a free testcontainers desktop application, and can be downloaded from https://testcontainers.com/desktop/ and is available for Windows, Mac & Linux.
